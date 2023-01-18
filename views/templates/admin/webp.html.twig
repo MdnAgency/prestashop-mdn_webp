@@ -1,0 +1,30 @@
+
+{% extends '@PrestaShop/Admin/layout.html.twig' %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col">
+            <div class="alert alert-info">
+                Content generated with web-p need to be configured. For now, only Image Slider & Category are supported. You can add your own support in GenerateController
+            </div>
+
+            <form method="post" class="form-horizontal">
+                <div class="card">
+                    <h3 class="card-header">
+                        <i class="material-icons">settings</i> {% block controllerTitle %}Generator{% endblock %}
+                    </h3>
+                    <div class="card-block row">
+                        <div class="card-text">
+                            <select name="theme" class="form-control">
+                                {% for key, support in supports %}
+                                    <option  value="{{ key }}">{{ support.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <button name="change_theme" type="submit" class="btn btn-primary">Play Generator</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

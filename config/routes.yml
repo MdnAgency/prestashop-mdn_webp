@@ -1,0 +1,15 @@
+webp_home:
+  path: mdn_webp/home
+  methods: [GET,POST]
+  defaults:
+    _controller: 'MdnWebp\Controller\GenerateController::showConfigPage'
+webp_test:
+  path: mdn_webp/generate/category/{id}
+  methods: [GET,POST]
+  defaults:
+    _controller: 'MdnWebp\Controller\GenerateController::generateCategoryImage'
+webp_categories:
+  path: mdn_webp/generate/categories
+  methods: [GET,POST]
+  defaults:
+    _controller: 'MdnWebp\Controller\GenerateController::generateAllCategoriesImages'

@@ -1,0 +1,6 @@
+services:
+  # The name of the service must match the full namespace class
+  MdnWebp\Controller\GenerateController:
+    class: MdnWebp\Controller\GenerateController
+    arguments:
+      - '@doctrine.cache.provider'
