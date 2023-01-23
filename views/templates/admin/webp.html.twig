@@ -30,6 +30,40 @@
                 </div>
             </form>
 
+            <form class="form-horizontal">
+            <div class="card">
+                <h3 class="card-header">
+                    <i class="material-icons">settings</i> AJAX Product Generator
+                </h3>
+                <div class="card-block row">
+                    <div class="card-text">
+                        <div class="alert alert-info">
+                            Will generate overtime all products
+                        </div>
+                        <div><span class="webp_product_amount">0</span> / {{ products|length }}</div>
+                        <div id="webp_product_progress" style="width: 100%; background: lightgrey; height: 10px"><div style="height: 10px; background: green; width: 0%; transition: 0.15s;"></div></div><br/>
+                        <button onclick="doProductGeneration('{{ product_generate_url }}')" name="generate" type="button" class="btn btn-primary">Play Generator</button>
+                    </div>
+                </div>
+
+                <script>
+                    var counter_webp_product_amount = 0;
+                    function doProductGeneration(url) {
+                        $.get(url, function (data) {
+                            console.log("Generation done for : ", data.name);
+
+                            counter_webp_product_amount++;
+                            $('.webp_product_amount').text(counter_webp_product_amount);
+                            $('#webp_product_progress > div').width((counter_webp_product_amount / {{ products|length }} * 100) + "%");
+
+                            if(data.next) {
+                                doProductGeneration(data.next);
+                            }
+                        })
+                    }
+                </script>
+            </div></form>
+
             <div class="row">
                 <div class="col-6">
                     <form method="post" class="form-horizontal">

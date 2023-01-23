@@ -2,6 +2,7 @@
 namespace MdnWebp\Controller;
 
 use Configuration;
+use Link;
 use PrestaShop\PrestaShop\Adapter\Entity\Db;
 use PrestaShop\PrestaShop\Core\Domain\Product\Image\QueryResult\ProductImage;
 use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
@@ -52,7 +53,6 @@ class GenerateController extends FrameworkBundleAdminController
         if(\Tools::isSubmit("generate_product")) {
             $product =  new \Product(\Tools::getValue('product'));
             $images =  $product->getImages(1);
-            dump($images);
             foreach ($images as $image) {
                 $productImage = new \Image($image['id_image']);
                 \ConvertToWebp::doForProductImage($productImage->getImgPath());
@@ -93,15 +93,41 @@ class GenerateController extends FrameworkBundleAdminController
         foreach (\Category::getCategories() as $sub_categories)
             $categories = array_merge($categories, $sub_categories);
 
-        $products = (Db::getInstance()->executeS("SELECT pl.id_product, name FROM `" . _DB_PREFIX_ . "product` p JOIN `" . _DB_PREFIX_ . "product_lang` pl ON p.id_product = pl.id_product WHERE pl.id_lang = '1'"));
+        $products = (Db::getInstance()->executeS("SELECT pl.id_product, name FROM `" . _DB_PREFIX_ . "product` p JOIN `" . _DB_PREFIX_ . "product_lang` pl ON p.id_product = pl.id_product WHERE pl.id_lang = '1' ORDER BY id_product ASC"));
 
+        $product_generate_url = Link::getUrlSmarty(array('entity' => 'sf', 'route' => 'webp_product',
+            'sf-params' => array(
+                'product' => $products[0]['id_product'],
+            )));
 
         return $this->render('@Modules/mdn_webp/views/templates/admin/webp.html.twig', [
             'supports' => $this->getSupports(),
             'quality' => Configuration::get("MDN_WEBP_QUALITY", null, null, null, 80),
             'categories' => $categories,
             'products' => $products,
+            'product_generate_url' => $product_generate_url
         ]);
     }
 
+    public function generateProductImage($product) {
+        $product_id = $product;
+        $product =  new \Product($product, false, 1);
+        $images =  $product->getImages(1);
+        foreach ($images as $image) {
+            $productImage = new \Image($image['id_image']);
+            \ConvertToWebp::doForProductImage($productImage->getImgPath());
+        }
+
+        // next
+        $next = (Db::getInstance()->getValue("SELECT p.id_product FROM `" . _DB_PREFIX_ . "product` p WHERE id_product > '".$product_id."' ORDER BY id_product ASC"));
+        $next_url = null;
+        if($next) {
+            $next_url =  Link::getUrlSmarty(array('entity' => 'sf', 'route' => 'webp_product',
+                'sf-params' => array(
+                    'product' => $next,
+                )));
+        }
+
+        return $this->json(["next" => $next_url, "name" => $product->name]);
+    }
 }

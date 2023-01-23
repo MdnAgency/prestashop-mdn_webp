@@ -3,3 +3,8 @@ webp_home:
   methods: [GET,POST]
   defaults:
     _controller: 'MdnWebp\Controller\GenerateController::showConfigPage'
+webp_product:
+  path: mdn_webp/generate/product/{product}
+  methods: [GET,POST]
+  defaults:
+    _controller: 'MdnWebp\Controller\GenerateController::generateProductImage'
