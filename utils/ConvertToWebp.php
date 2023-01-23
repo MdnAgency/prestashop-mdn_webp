@@ -8,7 +8,9 @@ class ConvertToWebp {
         $name = pathinfo($source, PATHINFO_FILENAME);
 
         //dossier
-        mkdir($dir . DIRECTORY_SEPARATOR . ($webp_folder ? "webp" . DIRECTORY_SEPARATOR : ""), 0777);
+        if($webp_folder) {
+            mkdir($dir . DIRECTORY_SEPARATOR . ($webp_folder ? "webp" . DIRECTORY_SEPARATOR : ""), 0777);
+        }
 
         // image
         $destination = $dir . DIRECTORY_SEPARATOR . ($webp_folder ? "webp" . DIRECTORY_SEPARATOR : "") . $name .  '.webp';
@@ -43,7 +45,20 @@ class ConvertToWebp {
         $folder = glob(_PS_IMG_DIR_ . "c" . DIRECTORY_SEPARATOR . "$str.{jpg,JPG,jpeg,JPEG,png,PNG}", GLOB_BRACE);
         foreach ($folder as $value) {
             $file = basename($value);
-            $destination = self::webpImage(_PS_IMG_DIR_ . "c" . DIRECTORY_SEPARATOR . "$file", 70, false, false);
+            $destination = self::webpImage(_PS_IMG_DIR_ . "c" . DIRECTORY_SEPARATOR . "$file", Configuration::get("MDN_WEBP_QUALITY", null, null, null, 80), false, false);
+            $destinations[] = $destination;
+        }
+        return ($destinations);
+    }
+
+    public static function doForPath($path)
+    {
+        $destinations = [];
+        $folder = glob($path, GLOB_BRACE);
+        foreach ($folder as $value) {
+            $file = basename($value);
+            $directory = dirname($path);
+            $destination = self::webpImage($directory . DIRECTORY_SEPARATOR . "$file", Configuration::get("MDN_WEBP_QUALITY", null, null, null, 80), false, false);
             $destinations[] = $destination;
         }
         return ($destinations);
@@ -56,7 +71,7 @@ class ConvertToWebp {
         $folder = glob(_PS_IMG_DIR_ . "p" . DIRECTORY_SEPARATOR . $path . "*.{jpg,JPG,jpeg,JPEG,png,PNG}", GLOB_BRACE);
         foreach ($folder as $value) {
             $file = basename($value);
-            $destination = self::webpImage(_PS_IMG_DIR_ . "p" . DIRECTORY_SEPARATOR . $path_without_last . DIRECTORY_SEPARATOR .   "$file", 70, false, false);
+            $destination = self::webpImage(_PS_IMG_DIR_ . "p" . DIRECTORY_SEPARATOR . $path_without_last . DIRECTORY_SEPARATOR .   "$file", Configuration::get("MDN_WEBP_QUALITY", null, null, null, 80), false, false);
             $destinations[] = $destination;
         }
         return ($destinations);
