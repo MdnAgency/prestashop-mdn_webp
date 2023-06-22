@@ -16,11 +16,9 @@ produit.png et produit.webp existent sur le serveur. Votre client a un navigateu
 
 
 ### Installation
-1. Décompresser l'archive "prestashop-mdn_webp-master.zip"
-2. Renommer le répertoire obtenu en "mdn_webp"
-3. Créer une archive zip "mdn_webp.zip" de ce dossier
-4. Uploader sur votre Prestashop le nouveau dossier
-5. Une fois installé, vous pouvez utiliser le panel WebP pour gérer vos images
+1. Rendez-vous dans les Releases, pour télécharger la dernière version : [https://github.com/MdnAgency/prestashop-mdn_webp/releases/](https://github.com/MdnAgency/prestashop-mdn_webp/releases/)
+2. Uploadez l'archive sur votre Prestashop
+3. Une fois installé, vous pouvez utiliser le panel WebP pour gérer vos images
 
  
 Plus de details : [https://maisondunet.com/blog/e-commerce/module-prestashop-webp-optimisations-images/](https://maisondunet.com/blog/e-commerce/module-prestashop-webp-optimisations-images/)
