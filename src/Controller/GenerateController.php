@@ -119,7 +119,7 @@ class GenerateController extends FrameworkBundleAdminController
         }
 
         // next
-        $next = (Db::getInstance()->getValue("SELECT p.id_product FROM `" . _DB_PREFIX_ . "product` p WHERE id_product > '".$product_id."' ORDER BY id_product ASC"));
+        $next = (Db::getInstance()->getValue("SELECT p.id_product FROM `" . _DB_PREFIX_ . "product` p WHERE id_product > '" . (int) $product_id . "' ORDER BY id_product ASC"));
         $next_url = null;
         if($next) {
             $next_url =  Link::getUrlSmarty(array('entity' => 'sf', 'route' => 'webp_product',
