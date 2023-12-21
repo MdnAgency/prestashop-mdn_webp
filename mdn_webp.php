@@ -8,27 +8,26 @@ require_once _PS_MODULE_DIR_ . '/mdn_webp/utils/SmartyExtension.php';
 require_once _PS_MODULE_DIR_ . '/mdn_webp/utils/ConvertToWebp.php';
 require_once _PS_MODULE_DIR_ . '/mdn_webp/utils/InstallFixs.php';
 class Mdn_webp extends Module  {
-    public $tabs = [
-        [
-            'name' => [
-                'en' => 'WebP'
-            ],
-            'class_name' => 'WebP',
-            'parent_class_name' => 'IMPROVE',
-            'route_name' => 'webp_home'
-        ],
-    ];
-
     public function __construct()
     {
         $this->displayName = "MDN - WebP Support";
         $this->name = 'mdn_webp';
         $this->author = 'Maison du Net - Loris';
         $this->tab = 'front_office_features';
-        $this->version = '1.0.0';
+        $this->version = '1.0.1';
         $this->bootstrap = true;
         $this->need_instance = 0;
         $this->ps_versions_compliancy = array('min' => '1.7.7.0', 'max' => _PS_VERSION_);
+        $this->tabs = [ 
+            [
+                'name' => [
+                    'en' => 'WebP'
+                ],
+                'class_name' => 'WebP',
+                'parent_class_name' => 'IMPROVE',
+                'route_name' => 'webp_home'
+            ],
+        ];
         parent::__construct();
     }
 
